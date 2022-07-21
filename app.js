@@ -5,10 +5,12 @@ const bodyParser = require("body-parser");
 const controllers = require("./controllers");
 const session = require("express-session");
 const passport = require("passport");
+const mongoose = require("mongoose");
 
 // Setting up imports for use.
 const app = express();
 app.set("view engine", "ejs");
+mongoose.connect(process.env.MONGO_DB);
 
 // Middleware.
 app.use(
@@ -18,14 +20,15 @@ app.use(
     saveUninitialized: false
   })
 );
+require("./middlewares/auth")(passport);
 app.use(passport.initialize());
 app.use(passport.session());
 app.use(express.static("public"));
 app.use(bodyParser.urlencoded({ extended: true }));
+app.use(controllers);
 
 // Global Variables.
 const PORT = process.env.PORT;
-app.use(controllers);
 
 // Initialize server.
 app.listen(PORT, function() {
