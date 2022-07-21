@@ -20,5 +20,15 @@
   },
   "engines": {
     "node": "16.x"
+  },
+  "prettier": {
+    "overrides": [
+      {
+        "files": "*.ejs",
+        "options": {
+          "parser": "html"
+        }
+      }
+    ]
   }
 }

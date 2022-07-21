@@ -43,4 +43,4 @@ exports.getAll = function getAll(cb) {
   User.find({}, cb);
 };
 
-exports.register = User.register;
+exports.model = User;

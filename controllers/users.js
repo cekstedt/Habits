@@ -8,6 +8,14 @@ const User = require("../models/User");
 
 // GET routes.
 
+router.get("/", function(req, res) {
+  if (req.isAuthenticated()) {
+    res.render("home");
+  } else {
+    res.redirect("/login");
+  }
+});
+
 router.get("/login", function(req, res) {
   res.render("login");
 });
@@ -16,42 +24,33 @@ router.get("/register", function(req, res) {
   res.render("register");
 });
 
-router.get("/secrets", function(req, res) {
-  if (req.isAuthenticated()) {
-    res.render("secrets");
-  } else {
-    res.redirect("/login");
-  }
-});
-
 router.get("/logout", function(req, res) {
   req.logout(function(err) {
     if (err) {
       console.log(err);
-      res.redirect("/secrets");
-    } else {
-      res.redirect("/");
     }
+    res.redirect("/");
   });
 });
 
 // POST routes.
 
 router.post("/register", function(req, res) {
-  User.register({ username: req.body.username }, req.body.password, function(
-    err,
-    user
-  ) {
-    if (err) {
-      console.log(err);
-      res.redirect("/register");
-    } else {
-      passport.authenticate("local")(req, res, function() {
-        // Only fires if authentication was successful.
-        res.redirect("/secrets");
-      });
+  User.model.register(
+    { username: req.body.username },
+    req.body.password,
+    function(err, user) {
+      if (err) {
+        console.log(err);
+        res.redirect("/register");
+      } else {
+        passport.authenticate("local")(req, res, function() {
+          // Only fires if authentication was successful.
+          res.redirect("/");
+        });
+      }
     }
-  });
+  );
 });
 
 router.post("/login", function(req, res) {
@@ -66,7 +65,7 @@ router.post("/login", function(req, res) {
     } else {
       passport.authenticate("local")(req, res, function() {
         // Only fires if authentication was successful.
-        res.redirect("/secrets");
+        res.redirect("/");
       });
     }
   });
