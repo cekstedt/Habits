@@ -33,7 +33,14 @@ exports.get = function get(userID, cb) {
   });
 };
 
+exports.getNew = function getNew(obj) {
+  const newUser = new User(obj);
+  return newUser;
+};
+
 exports.getAll = function getAll(cb) {
   // Returns (err, foundItems) to the callback function provided.
   User.find({}, cb);
 };
+
+exports.register = User.register;

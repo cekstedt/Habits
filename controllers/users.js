@@ -55,10 +55,10 @@ router.post("/register", function(req, res) {
 });
 
 router.post("/login", function(req, res) {
-  const user = {
+  const user = User.getNew({
     username: req.body.username,
     password: req.body.password
-  };
+  });
   req.login(user, function(err) {
     if (err) {
       console.log(err);
