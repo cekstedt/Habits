@@ -9,6 +9,10 @@ fs.readdirSync(__dirname).forEach(function(file) {
   }
 });
 
+router.get("/favicon.ico", (req, res) => {
+  res.sendStatus(404);
+});
+
 router.all("*", function(req, res) {
   res.status(404).render("404");
 });

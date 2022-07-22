@@ -6,6 +6,8 @@ const routes = require("./routes");
 const session = require("express-session");
 const passport = require("passport");
 const mongoose = require("mongoose");
+const morgan = require("morgan");
+const methodOverride = require("method-override");
 
 // Setting up imports for use.
 const app = express();
@@ -23,7 +25,9 @@ app.use(
 require("./middlewares/auth")(passport);
 app.use(passport.initialize());
 app.use(passport.session());
+app.use(methodOverride("_method"));
 app.use(express.static("public"));
+app.use(morgan("dev")); // log every request to the console
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(routes);
 

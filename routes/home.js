@@ -3,7 +3,7 @@ const router = express.Router();
 
 router.get("/", function(req, res) {
   if (req.isAuthenticated()) {
-    res.render("home");
+    res.render("home", { listItems: [] });
   } else {
     res.redirect("/login");
   }
